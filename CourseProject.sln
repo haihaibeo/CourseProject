@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginControl", "LoginControl.csproj", "{A27F1E32-474E-42EA-8362-28AAB8A80CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaManagement", "..\PizzaManagement\PizzaManagement.csproj", "{C7FF105B-1B5F-4B9E-910F-794C16102153}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaManagement", "PizzaManagement\PizzaManagement.csproj", "{C7FF105B-1B5F-4B9E-910F-794C16102153}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
