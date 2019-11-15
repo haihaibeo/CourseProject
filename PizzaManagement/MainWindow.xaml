@@ -4,18 +4,221 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PizzaManagement"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Pizza Manager" Height="500" Width="750">
-    <TabControl>
-        
-        <TabItem Header="Pizza Overview"/>
-        <TabItem Header="Order Pizza"/>
+        Title="Pizza Manager" Height="500" Width="750" WindowStyle="None" MinHeight="300" MinWidth="650"
+        FontSize="20">
 
-        <Border Padding="10">
-            
-            
-            
-        </Border>
-        
-    </TabControl>
+    <Grid Background="WhiteSmoke">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" MaxHeight="40"/>
+            <RowDefinition Height="2*" MaxHeight="80"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Row 1 -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+            <ComboBox FontSize="15" Width="50" Foreground="#FFA2A2A2"
+                      SelectedIndex="0" VerticalAlignment="Center"
+                      Padding="3">
+                <ComboBoxItem Content="EN"/>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button Content="FAQ" Background="{x:Null}" BorderBrush="{x:Null}" 
+                    Foreground="#FFA2A2A2" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Content="CONTACT" Background="{x:Null}" BorderBrush="{x:Null}" 
+                    Foreground="#FFA2A2A2" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Content="ORDER STATUS" Background="{x:Null}" BorderBrush="{x:Null}" 
+                    Foreground="#FFA2A2A2" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Content="MY ACCOUNT" Background="{x:Null}" BorderBrush="{x:Null}" 
+                    Foreground="#FFA2A2A2" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" 
+                    Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        Click="btnExitApp">
+                <materialDesign:PackIcon Kind="Power"  Foreground="#FFA2A2A2" Width="25" Height="25" />
+            </Button>
+        </StackPanel>
+
+        <!-- Row 2 -->
+        <Grid Grid.Row="1" Background="LightYellow">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Row 1 -->
+            <Button Uid="0" Content="HOME"  Background="{x:Null}" Grid.Column="0" Grid.Row="0" FontWeight="Bold"
+                    BorderBrush="{x:Null}" Foreground="#FF2196F3" Click="btnMainButtonsClick" Height="Auto" />
+            <Button Uid="1" Content="ORDER"  Background="{x:Null}" Grid.Column="1" Grid.Row="0" FontWeight="Bold"
+                    BorderBrush="{x:Null}" Foreground="#FF2196F3" Click="btnMainButtonsClick" Height="Auto"/>
+            <Button Uid="2" Content="CREATE YOUR OWN"  Background="{x:Null}" Grid.Column="2" Grid.Row="0" FontWeight="Bold"
+                    BorderBrush="{x:Null}" Foreground="#FF2196F3" Click="btnMainButtonsClick" Height="Auto"/>
+            <Button Uid="3" Content="DISCOUNT INFO"  Background="{x:Null}" Grid.Column="3" Grid.Row="0" FontWeight="Bold"
+                    BorderBrush="{x:Null}" Foreground="#FF2196F3" Click="btnMainButtonsClick" Height="Auto"/>
+
+            <!-- Row 2 -->
+            <Grid Grid.Row="1" Grid.Column ="1" x:Name="grid" Background="#FF2196F3" Margin="2"/>
+
+        </Grid>
+
+        <!-- Row 3 -->
+
+        <Grid Grid.Row="2" x:Name="GridHome" Visibility="Hidden">
+
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="GridOrder" Visibility="Visible">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Coloum 1-->
+            <Grid Grid.Column="0">
+
+                <StackPanel>
+
+                    <!-- Stack 1 - Choose Pizza -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Choose Pizza" FontWeight="Bold" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0" Margin="10 0 0 0"/>
+
+                        <!-- Coloum 2 -->
+                        <ComboBox   FontWeight="Bold" Text="Choose Type"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="0 5 0 0" SelectedIndex="0" Grid.Column="1" Grid.Row="0">
+                            <ComboBoxItem Content="Pizza 1"/>
+                            <ComboBoxItem Content="Pizza 2"/>
+                            <ComboBoxItem Content="Pizza 3"/>
+                            <ComboBoxItem Content="Pizza 4"/>
+                            <ComboBoxItem Content="Pizza 5"/>
+                        </ComboBox>
+                    </Grid>
+
+                    <!-- Stack 2 - Choose Size -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Choose Size" FontWeight="Bold" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0" Margin="10 0 0 0"/>
+
+                        <!-- Coloum 2 -->
+                        <ComboBox   FontWeight="Bold" Text="Choose Type"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="0 5 0 0" SelectedIndex="0" Grid.Column="1" Grid.Row="0">
+                            <ComboBoxItem Content="Small"/>
+                            <ComboBoxItem Content="Medium"/>
+                            <ComboBoxItem Content="Large"/>
+                        </ComboBox>
+                    </Grid>
+
+                    <!-- Stack 3 - Choose Address -->
+                    <StackPanel x:Name="Stack_NewAddress" Orientation="Vertical" Visibility="Collapsed">
+                        <Grid Margin="20 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Coloum 1 -->
+                            <TextBlock  Text="Street" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0" Margin="10 0 0 0"/>
+                            
+                            <!-- Coloum 2 -->
+                            <TextBox x:Name="TextBox_Street" Grid.Column="1" Text="Enter street" FontStyle="Italic"
+                                     FontSize="14" Padding="2" MouseDown="TextBox_Street_MouseDown"/>
+
+                        </Grid>
+
+                        <Grid Margin="20 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Coloum 1 -->
+                            <TextBlock  Text="Block" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0" Margin="10 0 0 0"/>
+                            <!-- Coloum 2 -->
+                            <TextBox x:Name="TextBox_Block" Grid.Column="1" Text="Enter block" FontStyle="Italic"
+                                     FontSize="14" Padding="2" MouseDown="TextBox_Street_MouseDown"/>
+                        </Grid>
+
+                        <Grid Margin="20 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Coloum 1 -->
+                            <TextBlock  Text="Apartment" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0" Margin="10 0 0 0"/>
+                            <!-- Coloum 2 -->
+                            <TextBox x:Name="TextBox_Apartment" Grid.Column="1" Text="Enter apartment" FontStyle="Italic"
+                                     FontSize="14" Padding="2" MouseDown="TextBox_Street_MouseDown"/>
+                        </Grid>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
+                        <TextBlock  Text="Use Current Address" FontWeight="Bold" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="10 0 0 0"/>
+                        <CheckBox x:Name="CheckBox_CurrAddr" IsChecked="True" Margin="10 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="CheckBox_CurrAddr_Click"/>
+                    </StackPanel>
+
+                    
+                    <!-- Stack 4 - Choose Telephone -->
+                    
+                    
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
+                        <TextBlock  Text="Use Current Address" FontWeight="Bold" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Margin="10 0 0 0"/>
+                        <CheckBox IsChecked="True" Margin="10 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="GridCreate" Visibility="Hidden">
+
+        </Grid>
+
+        <Grid Grid.Row="2" x:Name="GridDiscount" Visibility="Hidden">
+
+        </Grid>
+
+    </Grid>
+
 </Window>
