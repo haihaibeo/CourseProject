@@ -116,10 +116,6 @@ namespace PizzaManagement
 
         private void ButtonAddPizza_Click(object sender, RoutedEventArgs e)
         {
-            //var copy = XamlReader.Parse(XamlWriter.Save(gridForNewPizza)) as Grid;
-
-            //Grid newGrid = new Grid { DataContext = copy.DataContext };
-
             Grid newGrid = GridChoosePizza();
 
             stackForNewPizza.Children.Add(newGrid);
@@ -158,7 +154,21 @@ namespace PizzaManagement
                 SelectedIndex = 0
             };
 
+            Button delete = new Button()
+            {
+                Background = null,
+                BorderBrush = null,
+                VerticalAlignment = VerticalAlignment.Center,
+                Style = Application.Current.TryFindResource("MaterialDesignFloatingActionMiniAccentButton") as Style,
+            };
+            MaterialDesignThemes.Wpf.PackIcon exit = new MaterialDesignThemes.Wpf.PackIcon();
+            exit.Kind = MaterialDesignThemes.Wpf.PackIconKind.Delete;
+            exit.Foreground = Brushes.Red;
+            delete.Content = exit;
+            delete.Click += new RoutedEventHandler(DeleteSelectedPizza);
+
             grid.Margin = margin;
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(4, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
@@ -166,16 +176,24 @@ namespace PizzaManagement
             Grid.SetColumn(cbbChoosePizza, 0);
             Grid.SetColumn(cbbChooseSize, 1);
             Grid.SetColumn(cbbChooseQuant, 2);
+            Grid.SetColumn(delete, 3);
 
             cbbChoosePizza.ItemsSource = new List<string>() { "Pizza 1", "Pizza 2", "Pizza 3" };
             cbbChooseSize.ItemsSource = new List<string>() { "Small", "Medium", "Large" };
-            cbbChooseQuant.ItemsSource = new List<string>() { "1", "2", "3" };
+            cbbChooseQuant.ItemsSource = new List<int>() { 1, 2, 3};
 
             grid.Children.Add(cbbChoosePizza);
             grid.Children.Add(cbbChooseSize);
             grid.Children.Add(cbbChooseQuant);
+            grid.Children.Add(delete);
 
             return grid;
         }
+
+        private void DeleteSelectedPizza(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
     }
 }

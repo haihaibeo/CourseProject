@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PizzaManagement"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="Pizza Manager" Height="750" Width="750" WindowStyle="None" MinHeight="300" MinWidth="650"
+        Title="Pizza Manager" Height="750" Width="750" WindowStyle="SingleBorderWindow" MinHeight="300" MinWidth="650"
         FontSize="20">
 
     <Grid Background="WhiteSmoke">
@@ -40,7 +40,7 @@
             <Button Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         Click="btnExitApp">
-                <materialDesign:PackIcon Kind="Power"  Foreground="#FFA2A2A2" Width="25" Height="25" />
+                <materialDesign:PackIcon Kind="Power" Foreground="#FFA2A2A2" Width="25" Height="25" />
             </Button>
         </StackPanel>
 
@@ -125,7 +125,7 @@
 
                             <!-- Stack for Choose Pizza -->
                             <StackPanel Margin=" 0 0 0 10" x:Name="stackForNewPizza">
-                                <Grid Margin=" 10 0 0 0" x:Name="gridForNewPizza">
+                                <!--<Grid Margin=" 10 0 0 0" x:Name="gridForNewPizza">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="2*"/>
                                         <ColumnDefinition Width="*"/>
@@ -160,7 +160,7 @@
                                         <ComboBoxItem Content="5"/>
                                     </ComboBox>
 
-                                </Grid>
+                                </Grid>-->
                             </StackPanel>
 
                             <!-- Button Add Pizza -->
