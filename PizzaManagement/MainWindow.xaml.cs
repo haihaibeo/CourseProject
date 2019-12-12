@@ -192,7 +192,7 @@ namespace PizzaManagement
 
         private void DeleteSelectedPizza(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
     }
