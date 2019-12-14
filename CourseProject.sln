@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBLL", "TestBLL\TestBLL.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0A1E03F3-5BC5-4F7E-AACB-AB75B6D62E4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewPizzaManager", "NewPizzaManager\NewPizzaManager.csproj", "{1E2B334D-C2D6-4468-9D91-9198864340F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{0A1E03F3-5BC5-4F7E-AACB-AB75B6D62E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A1E03F3-5BC5-4F7E-AACB-AB75B6D62E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A1E03F3-5BC5-4F7E-AACB-AB75B6D62E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2B334D-C2D6-4468-9D91-9198864340F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2B334D-C2D6-4468-9D91-9198864340F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2B334D-C2D6-4468-9D91-9198864340F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2B334D-C2D6-4468-9D91-9198864340F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,6 +12,7 @@ namespace DAL
         {
         }
 
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Detail> Details { get; set; }
         public virtual DbSet<Ingredient> Ingredients { get; set; }
@@ -24,6 +25,12 @@ namespace DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Category>()
+                .HasMany(e => e.Ingredients)
+                .WithRequired(e => e.Category)
+                .HasForeignKey(e => e.Category_ID)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.Customer)
