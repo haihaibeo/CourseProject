@@ -24,9 +24,12 @@ namespace PizzaManagement
     {
         public int GridCursor_index { get; set; } = 0;
 
+        public OrderView Order { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            Order = new OrderView();
             DataContext = this;
         }
 

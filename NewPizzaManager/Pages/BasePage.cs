@@ -7,6 +7,10 @@ using System.Windows.Controls;
 
 namespace NewPizzaManager
 {
+    /// <summary>
+    /// Easier way to bind to a viewmodel from a page
+    /// </summary>
+    /// <typeparam name="VM"></typeparam>
     public class BasePage<VM> : Page where VM : BaseViewModel, new()
     {
         private VM _viewModel;

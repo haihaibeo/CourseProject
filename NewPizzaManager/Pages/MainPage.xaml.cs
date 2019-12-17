@@ -19,18 +19,11 @@ namespace NewPizzaManager
     /// <summary>
     /// Interaction logic for LoginPage.xaml
     /// </summary>
-    public partial class LoginPage : BasePage<LoginViewModel>, IPassword
+    public partial class MainPage : BasePage<MainPageViewModel>
     {
-        public LoginPage()
+        public MainPage()
         {
             InitializeComponent();
-        }
-
-        public SecureString SecurePassword {
-            get
-            {
-                return PW.SecurePassword;
-            }
         }
     }
 }

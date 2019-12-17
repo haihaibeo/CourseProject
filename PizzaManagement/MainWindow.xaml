@@ -80,7 +80,7 @@
         </Grid>
 
         <Grid Grid.Row="2" x:Name="GridOrder" Visibility="Visible">
-            
+            <Frame Content="{Binding Order}"/>
         </Grid>
 
         <Grid Grid.Row="2" x:Name="GridCreate" Visibility="Hidden">

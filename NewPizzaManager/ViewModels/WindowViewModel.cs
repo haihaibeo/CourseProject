@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +13,14 @@ namespace NewPizzaManager
     /// </summary>
     public class WindowViewModel : BaseViewModel
     {
-        private Window _window;
+        //private IDBDataOperation db;
+        
+        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.MainPage;
 
-        public WindowViewModel(Window window)
+
+        public WindowViewModel(IDBDataOperation dbo)
         {
-            _window = window;
+            db = dbo;
         }
-
-        public ApplicationPage CurrentPage { get; set; } = ApplicationPage.Login;
     }
 }

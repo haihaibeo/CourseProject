@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewPizzaManager
+namespace NewPizzaManager.DataModels
 {
-    public enum ApplicationPage
+    public class CustomerModel
     {
-        Login = 0,
+
     }
 }

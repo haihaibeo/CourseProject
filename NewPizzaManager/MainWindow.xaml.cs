@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BLL;
+using BLL.Utilitites;
+using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +26,11 @@ namespace NewPizzaManager
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new WindowViewModel(this);
+
+            var kernel = new StandardKernel(new ContainerConfig(), new ServiceModule("OrderPizzaEntity"));
+            IDBDataOperation dbo = kernel.Get<IDBDataOperation>();
+
+            this.DataContext = new WindowViewModel(dbo);
         }
     }
 }

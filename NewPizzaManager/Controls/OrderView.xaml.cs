@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,20 +16,13 @@ using System.Windows.Shapes;
 namespace NewPizzaManager
 {
     /// <summary>
-    /// Interaction logic for LoginPage.xaml
+    /// Interaction logic for OrderView.xaml
     /// </summary>
-    public partial class LoginPage : BasePage<LoginViewModel>, IPassword
+    public partial class OrderView : UserControl
     {
-        public LoginPage()
+        public OrderView()
         {
             InitializeComponent();
-        }
-
-        public SecureString SecurePassword {
-            get
-            {
-                return PW.SecurePassword;
-            }
         }
     }
 }

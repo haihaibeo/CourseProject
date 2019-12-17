@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using BLL;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ namespace NewPizzaManager
     [AddINotifyPropertyChangedInterface]
     public class BaseViewModel : INotifyPropertyChanged
     {
+        protected static IDBDataOperation db { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
         public void OnPropertyChanged(string name)

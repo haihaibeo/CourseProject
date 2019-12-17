@@ -1,0 +1,218 @@
+﻿<UserControl x:Class="NewPizzaManager.OrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NewPizzaManager"
+             mc:Ignorable="d" 
+             x:Name="PizzaDetail"
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid Background="{StaticResource LightYellowBrush}" DataContext="{x:Static local:OrderViewModel.CartInstance}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="*"/>
+            <ColumnDefinition  Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Column for selecting -->
+        <ScrollViewer Grid.Column="0" Grid.Row="0"
+                      Margin="10" VerticalScrollBarVisibility="Auto">
+
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock  Text="Выбрать пиццу" FontSize="{StaticResource FontSizeRegular}"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Grid.Column="0" Margin="0 0 5 0"/>
+
+                    <TextBlock  Text="Размер" FontSize="{StaticResource FontSizeRegular}"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Grid.Column="1" Margin="5 0 5 0"/>
+
+                    <TextBlock  Text="Количество" FontSize="{StaticResource FontSizeRegular}"
+                                        HorizontalAlignment="Left" VerticalAlignment="Center"
+                                        Grid.Column="2" Margin="5 0 5 0"/>
+
+                </Grid>
+                
+                <Grid>
+                    <ItemsControl ItemsSource="{Binding Carts}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <local:PizzaDetailView/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+
+                <Button Style="{StaticResource RoundButton}"
+                        FontSize="{StaticResource FontSizeRegular}"
+                        FontFamily="{StaticResource LatoBold}"
+                        MaxWidth="300"
+                        Content="Добавить пиццу" Margin="40 10"
+                        Command="{Binding AddNewCart}"
+                        CommandParameter="{Binding ElementName=PizzaDetail}">
+
+                </Button>
+                
+                <!-- Total price-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Coloum 1 -->
+                    <TextBlock  
+                        Text="Сумма" FontSize="{StaticResource FontSizeRegular}"
+                        HorizontalAlignment="Left" Margin="0 0 10 0"
+                        VerticalAlignment="Center"
+                        Grid.Column="0"/>
+
+                    <!-- Coloum 2 -->
+                    <TextBox Grid.Column="1" 
+                                 Padding="2" IsReadOnly="True"
+                                 Margin="10 0 0 0" Style="{StaticResource TextboxPlaceHolder}"
+                             Text="{Binding TotalPrice}"/>
+
+                </Grid>
+                
+                <!-- Address -->
+                <StackPanel Orientation="Vertical" 
+                                Visibility="Visible">
+                    <!-- Grid Name -->
+                    <Grid Margin="20 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Имя получателя" 
+                                    FontSize="{StaticResource FontSizeSmall}"
+                                    FontFamily="{StaticResource LatoRegular}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+
+                        <!-- Coloum 2 -->
+                        <TextBox    Grid.Column="1" Tag="Ввести имя" FontStyle="Italic"
+                                    FontSize="14" Padding="2"
+                                    Style="{StaticResource TextboxPlaceHolder}"
+                                    Text="{Binding Name, Mode=TwoWay}"/>
+                    </Grid>
+                    
+                    <!-- Grid Street -->
+                    <Grid Margin="20 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Улица" 
+                                    FontSize="{StaticResource FontSizeSmall}"
+                                    FontFamily="{StaticResource LatoRegular}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+
+                        <!-- Coloum 2 -->
+                        <TextBox    Grid.Column="1" Tag="Ввести улицу" FontStyle="Italic"
+                                    FontSize="14" Padding="2"
+                                    Style="{StaticResource TextboxPlaceHolder}"
+                                    Text="{Binding Street, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <!-- Grid Block -->
+                    <Grid Margin="20 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Дом" 
+                                    FontSize="{StaticResource FontSizeSmall}"
+                                    FontFamily="{StaticResource LatoRegular}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+                        <!-- Coloum 2 -->
+                        <TextBox Grid.Column="1" Tag="Ввести дом" FontStyle="Italic"
+                                 Style="{StaticResource TextboxPlaceHolder}"
+                                     FontSize="14" Padding="2" Text="{Binding Block, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <!-- Grid Apartment -->
+                    <Grid Margin="20 10 0 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Квартира" 
+                                    FontSize="{StaticResource FontSizeSmall}"
+                                    FontFamily="{StaticResource LatoRegular}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+                        <!-- Coloum 2 -->
+                        <TextBox    
+                            Grid.Column="1" Tag="Ввести квартиру" FontStyle="Italic"
+                            Style="{StaticResource TextboxPlaceHolder}"
+                            Text="{Binding Apartment, Mode=TwoWay}"
+                            FontSize="14" Padding="2"/>
+                    </Grid>
+
+                </StackPanel>
+
+                <!-- Telephone -->
+                <StackPanel
+                            Visibility="Visible" Orientation="Vertical">
+                    <!-- Grid Phone Number -->
+                    <Grid Margin="20 0 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Coloum 1 -->
+                        <TextBlock  Text="Телефон" 
+                                    FontSize="{StaticResource FontSizeSmall}"
+                                    FontFamily="{StaticResource LatoRegular}"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Grid.Column="0"/>
+                        <!-- Coloum 2 -->
+                        <TextBox    
+                            Grid.Column="1" Tag="Ввести номер телефона" FontStyle="Italic"
+                            Style="{StaticResource TextboxPlaceHolder}"
+                            FontSize="14" Padding="2"
+                            Text="{Binding Phone, Mode=TwoWay}"/>
+                        
+                    </Grid>
+                    
+                </StackPanel>
+
+
+            </StackPanel>
+
+        </ScrollViewer>
+        
+        <Button Content="Заказать" FontSize="24" 
+                MinHeight="50" Grid.Row="1" Grid.Column="0"
+                Margin="10" Padding="5" IsEnabled="True"
+                Command="{Binding Order}"
+                Style="{StaticResource RoundButton}">
+        </Button>
+
+    </Grid>
+</UserControl>
