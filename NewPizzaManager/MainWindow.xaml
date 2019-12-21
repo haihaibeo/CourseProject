@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NewPizzaManager"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         x:Name="AppWindow"
         WindowStartupLocation="CenterScreen"
-        MinHeight="300" MinWidth="600"
-        Title="MainWindow" Height="500" Width="800">
+        MinHeight="400" MinWidth="600"
+        Title="MainWindow" Height="800" Width="800">
+    
+    
     <Grid>
         <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local:ApplicationPageValueConverter}}"/>
     </Grid>

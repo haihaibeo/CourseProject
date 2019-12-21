@@ -12,7 +12,7 @@ namespace NewPizzaManager
         public ICommand SelectSection { get; set; }
 
         public Section CurrentSection { get; set; } = Section.QuickOrder;
-
+            
         public MainPageViewModel()
         {
             SelectSection = new RelayParameterizedCommand(Uid => _selectSection(Uid));

@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace NewPizzaManager
 {
-    public static class Quantity
+    public enum Quantity
     {
-        public static ObservableCollection<int> quantity = new ObservableCollection<int>() { 1, 2, 3, 4, 5 };
+        Один = 1,
+        Два = 2,
+        Три = 3,
+        Четыре = 4,
+        Пять = 5
     }
 }

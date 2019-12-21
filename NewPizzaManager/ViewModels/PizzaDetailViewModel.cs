@@ -11,7 +11,7 @@ namespace NewPizzaManager
     {
         public ObservableCollection<BLL.PizzaModel> Pizzas { get; set; }
         public ObservableCollection<BLL.SizeModel> Sizes { get; set; }
-        public ObservableCollection<int> quant { get; set; } = Quantity.quantity;
+       // public ObservableCollection<Quantity> quant { get; set; } = Quantity.One;
 
         public int SelectedPizzaIndex { get; set; } = 1;
         public int SelectedSizeIndex { get; set; } = 1;
@@ -51,7 +51,7 @@ namespace NewPizzaManager
             Pizzas = new ObservableCollection<BLL.PizzaModel>();
             Sizes = new ObservableCollection<BLL.SizeModel>();
 
-            this.quant = Quantity.quantity;
+           // this.quant = Quantity.quantity;
 
             foreach (var item in db.GetAllPizzas())
             {

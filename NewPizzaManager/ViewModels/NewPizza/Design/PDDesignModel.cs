@@ -15,12 +15,13 @@ namespace NewPizzaManager
 
         public PDDesignModel()
         {
-            SelectedPizzaIndex = 1;
-            SelectedQuantIndex = 1;
-            SelectedSizeIndex = 1;
-            Pizzas = new System.Collections.ObjectModel.ObservableCollection<BLL.PizzaModel>(db.GetAllPizzas());
-            Sizes = new System.Collections.ObjectModel.ObservableCollection<BLL.SizeModel>(db.GetAllSize());
-            quant = Quantity.quantity;
+            //SelectedPizzaID = 1;
+            //SelectedQuantID = 1;
+            //SelectedSizeID = 1;
+            //Pizzas = new System.Collections.ObjectModel.ObservableCollection<BLL.PizzaModel>(db.GetAllPizzas());
+            //Sizes = new System.Collections.ObjectModel.ObservableCollection<BLL.SizeModel>(db.GetAllSize());
+            //quant = Quantity.quantity;
+            //TotalPricePizza = db.GetPizza(SelectedPizzaID).Price * SelectedQuantID * Convert.ToDecimal(db.GetRatio(SelectedSizeID));
         }
     }
 }

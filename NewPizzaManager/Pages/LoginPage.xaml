@@ -48,7 +48,7 @@
                                 
                             </TextBox>
                             <!-- Password -->
-                            <PasswordBox x:Name="PW" Tag="Пароль"></PasswordBox>
+                            <PasswordBox Style="{StaticResource PasswordTextboxHolder}" x:Name="PW" Tag="Пароль"></PasswordBox>
                             <Button Content="Войти" Style="{StaticResource RoundButton}" Command="{Binding LoginCommand}"
                                     CommandParameter="{Binding ElementName=Page}"
                                     HorizontalAlignment="Center"

@@ -138,12 +138,14 @@ namespace BLL
         {
             int id = -1;
             int dt_id = AddNewDetail(dm);
+
             PizzaDetail pd = new PizzaDetail()
             {
                 Pizza_ID = pizza_id,
                 Detail_ID = dt_id,
                 TotalPricePizza = GetPizza(pizza_id).Price * GetDetail(dt_id).Quantity * Convert.ToDecimal(GetRatio(GetDetail(id).Size_ID))
             };
+
             try
             {
                 db.PizzaDetails.Create(pd);

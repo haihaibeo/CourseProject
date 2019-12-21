@@ -11,21 +11,40 @@ namespace NewPizzaManager
     {
         public ObservableCollection<BLL.PizzaModel> Pizzas { get; set; } = new ObservableCollection<BLL.PizzaModel>(db.GetAllPizzas());
         public ObservableCollection<BLL.SizeModel> Sizes { get; set; } = new ObservableCollection<BLL.SizeModel>(db.GetAllSize());
-        public ObservableCollection<int> quant { get; set; } = Quantity.quantity;
+        public ObservableCollection<Quantity> Quants { get; set; } = new ObservableCollection<Quantity>() 
+        {
+            Quantity.Один, Quantity.Два, Quantity.Три, Quantity.Четыре, Quantity.Пять 
+        };
 
-        public int SelectedPizzaIndex { get; set; } = 1;
-        public int SelectedSizeIndex { get; set; } = 1;
-        public int SelectedQuantIndex { get; set; } = 1;
+        public string PizzaImage { get; set; }
+
+        private void RecalculatePrice()
+        {
+            TotalPricePizza = db.GetPizza(SelectedPizzaID).Price * (int)SelectedQuant * Convert.ToDecimal(db.GetRatio(SelectedSizeID));
+        }
+
+        private void PizzaDetailViewModel__PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RecalculatePrice();
+        }
+
+        public Quantity SelectedQuant { get; set; } = Quantity.Один;
+        public int SelectedPizzaID { get; set; } = 1;
+        public int SelectedSizeID { get; set; } = 1;
+
+        public decimal TotalPricePizza { get; set; }
 
         public PizzaDetailViewModel_()
         {
 
         }
-        public PizzaDetailViewModel_(int pizza, int size, int quant)
+        public PizzaDetailViewModel_(int pizza_id, int size_id, Quantity quant)
         {
-            this.SelectedPizzaIndex = pizza;
-            this.SelectedQuantIndex = quant;
-            this.SelectedSizeIndex = size;
+            this.SelectedPizzaID = pizza_id;
+            SelectedQuant = quant;
+            this.SelectedSizeID = size_id;
+            RecalculatePrice();
+            PropertyChanged += PizzaDetailViewModel__PropertyChanged;
         }
     }
 }

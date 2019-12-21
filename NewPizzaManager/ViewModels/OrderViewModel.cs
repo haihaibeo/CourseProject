@@ -11,6 +11,7 @@ namespace NewPizzaManager
     public class OrderViewModel : PizzaDetailViewModel_
     {
         public ObservableCollection<PizzaDetailViewModel_> Carts { get; set; }
+        public ObservableCollection<PizzaDetailViewModel_> AvailablePizzas { get; set; }
         public BLL.CustomerModel Customer { get; set; }
         public string Name { get; set; }
         public string Street { get; set; }
@@ -32,7 +33,25 @@ namespace NewPizzaManager
             AddNewCart = new RelayCommand(_addNewCart);
             Order = new RelayCommand(_order);
             Carts = new ObservableCollection<PizzaDetailViewModel_>();
+            AvailablePizzas = new ObservableCollection<PizzaDetailViewModel_>();
+            CreateShellPizzas();
             this.Carts.CollectionChanged += Carts_CollectionChanged;
+        }
+
+        private void CreateShellPizzas()
+        {
+            foreach(var item in db.GetAllPizzas())
+            {
+                AvailablePizzas.Add(new PizzaDetailViewModel_(item.ID, 1, Quantity.Один));
+            }
+            foreach(var item in AvailablePizzas)
+            {
+                switch(item.SelectedPizzaID)
+                {
+                    case 1: item.PizzaImage = "/Images/Pizza/Pizza_1.png";
+                        break;
+                }
+            }
         }
 
         private void _order()
@@ -53,10 +72,10 @@ namespace NewPizzaManager
                     {
                         BLL.DetailModel dt = new BLL.DetailModel()
                         {
-                            Quantity = Quantity.quantity[item.SelectedQuantIndex],
-                            Size_ID = item.SelectedQuantIndex
+                            Quantity = (int)SelectedQuant,
+                            Size_ID = item.SelectedSizeID
                         };
-                        int id = db.AddNewCart(dt, item.SelectedPizzaIndex);
+                        int id = db.AddNewCart(dt, item.SelectedPizzaID);
                         cart_id.Add(id);
                         db.AddNewOrder(id, cust_id, db.GetCart(id).TotalPrice);
                     }
@@ -74,14 +93,14 @@ namespace NewPizzaManager
             if (Carts.Count > 0)
                 foreach (var item in Carts)
                 {
-                    TotalPrice += db.GetPizza(item.SelectedPizzaIndex).Price * Convert.ToDecimal(db.GetRatio(item.SelectedSizeIndex)) * item.SelectedQuantIndex;
+                    TotalPrice += db.GetPizza(item.SelectedPizzaID).Price * Convert.ToDecimal(db.GetRatio(item.SelectedSizeID)) * (int)item.SelectedQuant;
                 }
             OnPropertyChanged(nameof(TotalPrice));
         }
 
         private void _addNewCart()
         {
-            Carts.Add(new PizzaDetailViewModel_(1,1,1));
+            Carts.Add(new PizzaDetailViewModel_(1,1,Quantity.Один));
         }
     }
 }

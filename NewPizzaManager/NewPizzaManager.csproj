@@ -79,13 +79,16 @@
     <Compile Include="Controls\PizzaDetailView.xaml.cs">
       <DependentUpon>PizzaDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PizzaFrameView.xaml.cs">
+      <DependentUpon>PizzaFrameView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModels\CustomerModel.cs" />
     <Compile Include="DataModels\Enum\ApplicationPage.cs" />
     <Compile Include="DataModels\DetailModel.cs" />
     <Compile Include="DataModels\OrderModel.cs" />
     <Compile Include="DataModels\PizzaDetailModel.cs" />
     <Compile Include="DataModels\PizzaModel.cs" />
-    <Compile Include="DataModels\Quantity.cs" />
+    <Compile Include="DataModels\Enum\Quantity.cs" />
     <Compile Include="Pages\BasePage.cs" />
     <Compile Include="Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -98,6 +101,7 @@
     <Compile Include="Utilities\ContainerConfig.cs" />
     <Compile Include="ValueConverters\ApplicationPageValueConverter.cs" />
     <Compile Include="ValueConverters\BaseValueConverter.cs" />
+    <Compile Include="ValueConverters\QuantityValueConverter.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayParameterizedCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
@@ -116,6 +120,10 @@
     <Page Include="Controls\PizzaDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PizzaFrameView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -220,6 +228,14 @@
       <Project>{241aa68c-21f0-499c-a94a-aa264d8758b6}</Project>
       <Name>BLL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pizza\Pizza_1.png" />
+    <Resource Include="Images\Pizza\Pizza_2.png" />
+    <Resource Include="Images\Pizza\Pizza_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pizza\Pizza_4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />

@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NewPizzaManager">
     
-    
+
     <Style TargetType="{x:Type TextBox}" x:Key="TextboxPlaceHolder" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="BorderBrush" Value="{StaticResource ForeGroundMainBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
@@ -48,10 +48,10 @@
                             <Setter Property="Opacity" TargetName="border" Value="0.56"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF7EB4EA"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#632302"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter Property="BorderBrush" TargetName="border" Value="#FF569DE5"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="#632302"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -60,7 +60,7 @@
         
     </Style>
 
-    <Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource BaseStyle}">
+    <Style x:Key="PasswordTextboxHolder" TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="BorderBrush" Value="{StaticResource ForeGroundMainBrush}"/>
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
         <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}"/>

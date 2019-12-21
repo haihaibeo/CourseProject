@@ -25,9 +25,9 @@
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock  Text="Выбрать пиццу" FontSize="{StaticResource FontSizeRegular}"
@@ -44,7 +44,7 @@
 
                 </Grid>
                 
-                <Grid>
+                <!--<Grid>
                     <ItemsControl ItemsSource="{Binding Carts}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -54,7 +54,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Grid>
+                </Grid>-->
 
                 <Button Style="{StaticResource RoundButton}"
                         FontSize="{StaticResource FontSizeRegular}"
@@ -63,7 +63,6 @@
                         Content="Добавить пиццу" Margin="40 10"
                         Command="{Binding AddNewCart}"
                         CommandParameter="{Binding ElementName=PizzaDetail}">
-
                 </Button>
                 
                 <!-- Total price-->
@@ -213,6 +212,19 @@
                 Command="{Binding Order}"
                 Style="{StaticResource RoundButton}">
         </Button>
+
+        <ScrollViewer Grid.Column="1">
+             <WrapPanel>
+                <ItemsControl ItemsSource="{Binding AvailablePizzas}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:PizzaFrameView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </WrapPanel>
+        </ScrollViewer>
+        
 
     </Grid>
 </UserControl>
