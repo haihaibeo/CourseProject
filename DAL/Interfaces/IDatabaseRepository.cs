@@ -17,6 +17,7 @@ namespace DAL
         IRepository<PizzaType> PizzaTypes { get; }
         IRepository<Receipt> Receipts { get; }
         IRepository<Size> Sizes { get; }
+        IRepository<Category> Categories { get; }
         int Save();
     }
 }

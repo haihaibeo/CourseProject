@@ -76,10 +76,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AttacheedProperties\PasswordBoxProperty.cs" />
-    <Compile Include="Controls\PizzaDetailView.xaml.cs">
+    <Compile Include="Controls\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Ingredient\IngredientTypeView.xaml.cs">
+      <DependentUpon>IngredientTypeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PizzaView.xaml.cs">
+      <DependentUpon>PizzaView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Pizza\PizzaDetailView.xaml.cs">
       <DependentUpon>PizzaDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PizzaFrameView.xaml.cs">
+    <Compile Include="Controls\Pizza\PizzaFrameView.xaml.cs">
       <DependentUpon>PizzaFrameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\CustomerModel.cs" />
@@ -105,6 +114,10 @@
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayParameterizedCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
+    <Compile Include="ViewModels\Ingredient\Design\IngredientDesignModel.cs" />
+    <Compile Include="ViewModels\Ingredient\Design\ListIngredientDesignModel.cs" />
+    <Compile Include="ViewModels\Ingredient\IngredientViewModel.cs" />
+    <Compile Include="ViewModels\Ingredient\ListIngredientViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\NewPizza\Design\PDDesignModel.cs" />
@@ -117,11 +130,23 @@
     <Compile Include="Controls\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\PizzaDetailView.xaml">
+    <Page Include="Controls\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PizzaFrameView.xaml">
+    <Page Include="Controls\Ingredient\IngredientTypeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PizzaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Pizza\PizzaDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Pizza\PizzaFrameView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -216,6 +241,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Controls\Order\" />
     <Folder Include="Images\Icons\" />
   </ItemGroup>
   <ItemGroup>

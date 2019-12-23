@@ -57,6 +57,19 @@ namespace BLL
             return ingres;
         }
 
+        public List<BLL.IngredientModel> GetIngreFromPizza(int pizza_id)
+        {
+            var ingres = new List<IngredientModel>();
+            List<ReceiptModel> rcs = this.GetAllReceipts();
+
+            foreach (var i in rcs)
+            {
+                if (i.Pizza_ID == pizza_id)
+                    ingres.Add(this.GetIngredient(i.Ingredient_ID));
+            }
+            return ingres;
+        }
+
         public int AddNewCustomer(CustomerModel cust_model)
         {
             int id = -1;
@@ -200,6 +213,11 @@ namespace BLL
         public PizzaDetailModel GetCart(int ID)
         {
             return new PizzaDetailModel(db.PizzaDetails.GetItem(ID));
+        }
+
+        public List<CategoryModel> GetCategories()
+        {
+            return db.Categories.GetList().Select(i => new CategoryModel(i)).ToList();
         }
     }
 }

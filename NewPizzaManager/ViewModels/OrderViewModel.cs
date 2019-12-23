@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NewPizzaManager
@@ -12,6 +10,7 @@ namespace NewPizzaManager
     {
         public ObservableCollection<PizzaDetailViewModel_> Carts { get; set; }
         public ObservableCollection<PizzaDetailViewModel_> AvailablePizzas { get; set; }
+
         public BLL.CustomerModel Customer { get; set; }
         public string Name { get; set; }
         public string Street { get; set; }
@@ -23,32 +22,64 @@ namespace NewPizzaManager
 
         public decimal TotalPrice { get; set; }
 
-        public ICommand AddNewCart { get; set; }
         public ICommand Order { get; set; }
+        public static ICommand AddNewCart { get; set; }
+        public static ICommand DeleteFromCart { get; set; }
 
-        public static OrderViewModel CartInstance => new OrderViewModel();
+
+    public static OrderViewModel CartInstance => new OrderViewModel();
 
         public OrderViewModel()
         {
-            AddNewCart = new RelayCommand(_addNewCart);
+            SelectSection = new RelayParameterizedCommand(Uid => _selectSection(Uid));
+            AddNewCart = new RelayParameterizedCommand(pizza_id => _addNewCart(pizza_id));
+            DeleteFromCart = new RelayParameterizedCommand(parameter => _deleteFromCart(parameter));
             Order = new RelayCommand(_order);
+
             Carts = new ObservableCollection<PizzaDetailViewModel_>();
             AvailablePizzas = new ObservableCollection<PizzaDetailViewModel_>();
+
             CreateShellPizzas();
             this.Carts.CollectionChanged += Carts_CollectionChanged;
+            
+        }
+
+        private void _deleteFromCart(object parameter)
+        {
+            foreach(var item in Carts)
+            {
+                if (item.SelectedPizzaID == (int)parameter)
+                {
+                    Carts.Remove(item);
+                    return;
+                }
+            }
         }
 
         private void CreateShellPizzas()
         {
-            foreach(var item in db.GetAllPizzas())
+            foreach (var item in db.GetAllPizzas())
             {
                 AvailablePizzas.Add(new PizzaDetailViewModel_(item.ID, 1, Quantity.Один));
             }
-            foreach(var item in AvailablePizzas)
+            foreach (var item in AvailablePizzas)
             {
-                switch(item.SelectedPizzaID)
+                switch (item.SelectedPizzaID)
                 {
-                    case 1: item.PizzaImage = "/Images/Pizza/Pizza_1.png";
+                    case 1:
+                        item.PizzaImage = "/Images/Pizza/Pizza_1.png";
+                        break;
+                    case 2:
+                        item.PizzaImage = "/Images/Pizza/Pizza_2.png";
+                        break;
+                    case 3:
+                        item.PizzaImage = "/Images/Pizza/Pizza_3.png";
+                        break;
+                    case 4:
+                        item.PizzaImage = "/Images/Pizza/Pizza_4.png";
+                        break;
+                    default:
+                        item.PizzaImage = "";
                         break;
                 }
             }
@@ -62,7 +93,7 @@ namespace NewPizzaManager
                 Address = Street + Block + Apartment,
                 Phone = Phone
             };
-            if(Carts.Count>0 && cust.Address != null)
+            if (Carts.Count > 0 && cust.Address != null)
             {
                 try
                 {
@@ -82,25 +113,119 @@ namespace NewPizzaManager
                     db.Save();
                 }
                 catch { }
-                
             }
-            
         }
 
         private void Carts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            TotalPrice = 0;
-            if (Carts.Count > 0)
-                foreach (var item in Carts)
-                {
-                    TotalPrice += db.GetPizza(item.SelectedPizzaID).Price * Convert.ToDecimal(db.GetRatio(item.SelectedSizeID)) * (int)item.SelectedQuant;
-                }
-            OnPropertyChanged(nameof(TotalPrice));
+            RecalculateTotalPrice();
         }
 
-        private void _addNewCart()
+        private void RecalculateTotalPrice()
         {
-            Carts.Add(new PizzaDetailViewModel_(1,1,Quantity.Один));
+            TotalPrice = 0;
+            foreach (var item in Carts)
+            {
+                TotalPrice += item.TotalPricePizza;
+            }
         }
+
+        private void Item_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TotalPricePizza))
+            {
+                RecalculateTotalPrice();
+            }
+        }
+
+        private void _addNewCart(object pizza_id)
+        {
+            foreach(var item in Carts)
+            {
+                if(item.Pizza.ID == (int)pizza_id)
+                {
+                    switch (item.SelectedQuant)
+                    {
+                        case Quantity.Один:
+                            item.SelectedQuant = Quantity.Два;
+                            OnPropertyChanged(nameof(Carts));
+                            return;
+                        case Quantity.Два:
+                            item.SelectedQuant = Quantity.Три;
+                            return;
+                        case Quantity.Три:
+                            item.SelectedQuant = Quantity.Четыре;
+                            return;
+                        case Quantity.Четыре:
+                            item.SelectedQuant = Quantity.Пять;
+                            return;
+                        case Quantity.Пять:
+                            item.SelectedQuant = Quantity.Пять;
+                            return;
+                        default:
+                            item.SelectedQuant = Quantity.Пять;
+                            return;
+                    }
+                }
+            }
+            var newPizza = new PizzaDetailViewModel_((int)pizza_id, 2, Quantity.Один);
+            switch (pizza_id)
+            {
+                case 1:
+                    newPizza.PizzaImage = "/Images/Pizza/Pizza_1.png";
+                    break;
+                case 2:
+                    newPizza.PizzaImage = "/Images/Pizza/Pizza_2.png";
+                    break;
+                case 3:
+                    newPizza.PizzaImage = "/Images/Pizza/Pizza_3.png";
+                    break;
+                case 4:
+                    newPizza.PizzaImage = "/Images/Pizza/Pizza_4.png";
+                    break;
+                default:
+                    newPizza.PizzaImage = "";
+                    break;
+            }
+            newPizza.PropertyChanged += Item_PropertyChanged;
+            Carts.Add(newPizza);
+        }
+
+        #region Main Buttons views
+        public ICommand SelectSection { get; set; }
+
+        public Section CurrentSection { get; set; } = Section.Home;
+
+        public Visibility IsOrderVisible { get; set; } = Visibility.Collapsed;
+        public Visibility IsOverViewVisible { get; set; } = Visibility.Visible;
+
+        private void _selectSection(object Uid)
+        {
+            int uid = Convert.ToInt32(Uid);
+            CurrentSection = (Section)uid;
+
+            switch (CurrentSection)
+            {
+                case Section.Home:
+                    IsOrderVisible = Visibility.Collapsed;
+                    IsOverViewVisible = Visibility.Visible;
+                    break;
+
+                case Section.QuickOrder:
+                    IsOrderVisible = Visibility.Visible;
+                    IsOverViewVisible = Visibility.Collapsed;
+                    break;
+
+                case Section.CreatePizza:
+                    break;
+
+                case Section.Discount:
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        #endregion
     }
 }

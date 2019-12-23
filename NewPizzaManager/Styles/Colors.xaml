@@ -4,6 +4,9 @@
     
     <Color x:Key="BackGroundLight">#efefef</Color>
     <SolidColorBrush x:Key="BackGroundLightBrush" Color="{StaticResource BackGroundLight}"></SolidColorBrush>
+    
+    <Color x:Key="BackGroundLightGray">#dedede</Color>
+    <SolidColorBrush x:Key="BackGroundLightGrayBrush" Color="{StaticResource BackGroundLightGray}"></SolidColorBrush>
 
     <Color x:Key="BackGroundVeryLight">#fafafa</Color>
     <SolidColorBrush x:Key="BackGroundVeryLightBrush" Color="{StaticResource BackGroundVeryLight}"></SolidColorBrush>

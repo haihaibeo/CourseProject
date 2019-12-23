@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NewPizzaManager
@@ -11,8 +8,11 @@ namespace NewPizzaManager
     {
         public ICommand SelectSection { get; set; }
 
-        public Section CurrentSection { get; set; } = Section.QuickOrder;
-            
+        public Section CurrentSection { get; set; } = Section.Home;
+
+        public Visibility IsOrderVisible { get; set; } = Visibility.Collapsed;
+        public Visibility IsOverViewVisible { get; set; } = Visibility.Visible;
+
         public MainPageViewModel()
         {
             SelectSection = new RelayParameterizedCommand(Uid => _selectSection(Uid));
@@ -26,13 +26,21 @@ namespace NewPizzaManager
             switch (CurrentSection)
             {
                 case Section.Home:
+                    IsOrderVisible = Visibility.Collapsed;
+                    IsOverViewVisible = Visibility.Visible;
                     break;
+
                 case Section.QuickOrder:
+                    IsOrderVisible = Visibility.Visible;
+                    IsOverViewVisible = Visibility.Collapsed;
                     break;
+
                 case Section.CreatePizza:
                     break;
+
                 case Section.Discount:
                     break;
+
                 default:
                     break;
             }

@@ -63,6 +63,7 @@
     <Compile Include="Entities\PizzaDetail.cs" />
     <Compile Include="Entities\PizzaType.cs" />
     <Compile Include="Entities\Receipt.cs" />
+    <Compile Include="Repositories\CategoryReposSQL.cs" />
     <Compile Include="Repositories\CustomerReposSQL.cs" />
     <Compile Include="Repositories\DatabaseRepository.cs" />
     <Compile Include="Repositories\DetailReposSQL.cs" />

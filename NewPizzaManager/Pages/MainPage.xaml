@@ -1,70 +1,76 @@
 ﻿<local:BasePage x:TypeArguments="local:MainPageViewModel" x:Class="NewPizzaManager.MainPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:NewPizzaManager"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       x:Name="Page"
       MinHeight="600" MinWidth="600"
       Title="LoginPage">
 
-
-    <Grid>
+    <Grid DataContext="{x:Static local:OrderViewModel.CartInstance}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" MaxHeight="80"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*" MaxHeight="80" />
+            <RowDefinition Height="8*" />
         </Grid.RowDefinitions>
 
         <!-- Grid menu -->
         <Grid Grid.Row="0" MinHeight="80">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="9*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="9*" />
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="{Binding CurrentSection, Converter={local:SectionValueConverter}}"
-                  Background="{StaticResource RedOrangeBrush}" Margin="2"
-                  />
+                  Background="{StaticResource RedOrangeBrush}" Margin="2" />
             <Button Uid="0" Grid.Column="0" Grid.Row="1" Padding="10 0 10 0"
                     BorderBrush="{x:Null}"
                     FontSize="{StaticResource FontSizeRegular}"
                     Background="{x:Null}" Foreground="{StaticResource RedOrangeBrush}"
                     Command="{Binding SelectSection}" CommandParameter="0"
-                    Content="Главная страница"/>
-            <Button Uid="1" Grid.Column="1" Grid.Row="1"
+                    Content="Главная страница" />
+            <Button Uid="2" Grid.Column="1" Grid.Row="1" Padding="10 0 10 0"
+                    BorderBrush="{x:Null}"
                     FontSize="{StaticResource FontSizeRegular}"
+                    Background="{x:Null}" Foreground="{StaticResource RedOrangeBrush}"
                     Command="{Binding SelectSection}" CommandParameter="1"
-                    Content="Быстрый заказ" Style="{StaticResource FlatButton}" Padding="0"/>
-            <Button Uid="2" Grid.Column="2" Grid.Row="1"
+                    Content="Быстрый заказ" />
+            <Button Uid="2" Grid.Column="2" Grid.Row="1" Padding="10 0 10 0"
+                    BorderBrush="{x:Null}"
                     FontSize="{StaticResource FontSizeRegular}"
+                    Background="{x:Null}" Foreground="{StaticResource RedOrangeBrush}"
                     Command="{Binding SelectSection}" CommandParameter="2"
-                    Content="Создать свою пиццу" Style="{StaticResource FlatButton}" Padding="0"/>
-            <Button Uid="3" Grid.Column="3" Grid.Row="1"
+                    Content="Создать свою" />
+            <Button Uid="3" Grid.Column="3" Grid.Row="1" Padding="10 0 10 0"
+                    BorderBrush="{x:Null}"
                     FontSize="{StaticResource FontSizeRegular}"
+                    Background="{x:Null}" Foreground="{StaticResource RedOrangeBrush}"
                     Command="{Binding SelectSection}" CommandParameter="3"
-                    Content="Информация" Style="{StaticResource FlatButton}" Padding="0"/>
-            
+                    Content="Инфо" />
+
             <Grid Grid.Row="2" Grid.Column="{Binding CurrentSection, Converter={local:SectionValueConverter}}"
-                  Background="{StaticResource RedOrangeBrush}" Margin="2"
-                  />
+                  Background="{StaticResource RedOrangeBrush}" Margin="2" />
+            <Grid Grid.Row="1" Grid.Column="{Binding CurrentSection, Converter={local:SectionValueConverter}}"
+                  Background="{StaticResource LightYellowBrush}" Opacity="0.2"/>
         </Grid>
 
         <!-- Grid Content -->
         <Grid Grid.Row="1">
-            <local:OrderView>
-                
+            <local:OrderView  Visibility="{Binding IsOrderVisible}">
             </local:OrderView>
+
+            <local:HomeView Visibility="{Binding IsOverViewVisible}">
+            </local:HomeView>
         </Grid>
-        
     </Grid>
 </local:BasePage>

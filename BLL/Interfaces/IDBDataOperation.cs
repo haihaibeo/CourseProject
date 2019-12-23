@@ -18,7 +18,9 @@ namespace BLL
         List<SizeModel> GetAllSize();
         List<DetailModel> GetAllDetails();
         List<IngredientModel> GetIngreFromPizza(PizzaModel pizza);
+        List<IngredientModel> GetIngreFromPizza(int pizza_id);
         List<PizzaDetailModel> GetAllCarts();
+        List<CategoryModel> GetCategories();
 
         CustomerModel GetCustomer(int ID);
         IngredientModel GetIngredient(int ID);
