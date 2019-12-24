@@ -76,8 +76,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AttacheedProperties\PasswordBoxProperty.cs" />
+    <Compile Include="Controls\CreatePizzaView.xaml.cs">
+      <DependentUpon>CreatePizzaView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InfoView.xaml.cs">
+      <DependentUpon>InfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Ingredient\EachIngredientView.xaml.cs">
+      <DependentUpon>EachIngredientView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Ingredient\IngredientTypeView.xaml.cs">
       <DependentUpon>IngredientTypeView.xaml</DependentUpon>
@@ -114,15 +123,9 @@
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="ViewModels\Base\RelayParameterizedCommand.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
-    <Compile Include="ViewModels\Ingredient\Design\IngredientDesignModel.cs" />
-    <Compile Include="ViewModels\Ingredient\Design\ListIngredientDesignModel.cs" />
-    <Compile Include="ViewModels\Ingredient\IngredientViewModel.cs" />
-    <Compile Include="ViewModels\Ingredient\ListIngredientViewModel.cs" />
+    <Compile Include="ViewModels\Ingredient\IngredientTypeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\NewPizza\Design\PDDesignModel.cs" />
-    <Compile Include="ViewModels\NewPizza\Design\PDListDesignModel.cs" />
-    <Compile Include="ViewModels\NewPizza\PizzaDetailListViewModel__.cs" />
     <Compile Include="ViewModels\NewPizza\PizzaDetailViewModel_.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\PizzaDetailViewModel.cs" />
@@ -130,7 +133,19 @@
     <Compile Include="Controls\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\CreatePizzaView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Ingredient\EachIngredientView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +277,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Pizza\Pizza_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Pizza\UserCreatedPizza.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />

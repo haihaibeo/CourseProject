@@ -92,5 +92,5 @@
         </Style>
     </UserControl.Resources>
 
-    <ContentControl d:DataContext="{Binding PDDesignModel}" Style="{StaticResource ContentStyle}" />
+    <ContentControl Style="{StaticResource ContentStyle}" />
 </UserControl>

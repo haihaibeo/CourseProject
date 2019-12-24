@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,6 +11,8 @@ namespace NewPizzaManager
     {
         public ObservableCollection<PizzaDetailViewModel_> Carts { get; set; }
         public ObservableCollection<PizzaDetailViewModel_> AvailablePizzas { get; set; }
+        public ObservableCollection<IngredientTypeViewModel> IngreTypes { get; set; }
+        public PizzaDetailViewModel_ NewPizzaUserCreated { get; set; }
 
         public BLL.CustomerModel Customer { get; set; }
         public string Name { get; set; }
@@ -25,23 +28,73 @@ namespace NewPizzaManager
         public ICommand Order { get; set; }
         public static ICommand AddNewCart { get; set; }
         public static ICommand DeleteFromCart { get; set; }
+        public static ICommand AddIngredientToPizza { get; set; }
+        public static ICommand DeleteIngredientFromPizza { get; set; }
 
-
-    public static OrderViewModel CartInstance => new OrderViewModel();
+        public static OrderViewModel CartInstance => new OrderViewModel();
 
         public OrderViewModel()
         {
             SelectSection = new RelayParameterizedCommand(Uid => _selectSection(Uid));
             AddNewCart = new RelayParameterizedCommand(pizza_id => _addNewCart(pizza_id));
             DeleteFromCart = new RelayParameterizedCommand(parameter => _deleteFromCart(parameter));
+            AddIngredientToPizza = new RelayParameterizedCommand(ingre_id => _addIngre(ingre_id));
+            DeleteIngredientFromPizza = new RelayParameterizedCommand(ingre_id => _deleteIngre(ingre_id));
+
             Order = new RelayCommand(_order);
 
             Carts = new ObservableCollection<PizzaDetailViewModel_>();
             AvailablePizzas = new ObservableCollection<PizzaDetailViewModel_>();
+            IngreTypes = new ObservableCollection<IngredientTypeViewModel>();
 
             CreateShellPizzas();
+            FillIngredientType();
+            InstantiateNewPizzaUserCreated();
             this.Carts.CollectionChanged += Carts_CollectionChanged;
             
+        }
+
+        private void _addIngre(object ingre_id)
+        {
+            foreach (var item in NewPizzaUserCreated.Ingres)
+            {
+                if (item.ID == (int)ingre_id)
+                    return;
+            }
+            var ingre = db.GetIngredient((int)ingre_id);
+            NewPizzaUserCreated.Ingres.Add(ingre);
+            NewPizzaUserCreated.TotalPricePizza += ingre.Cost;
+        }
+
+        private void _deleteIngre(object ingre_id)
+        {
+            foreach (var item in NewPizzaUserCreated.Ingres)
+            {
+                if (item.ID == (int)ingre_id)
+                {
+                    NewPizzaUserCreated.Ingres.Remove(item);
+                    NewPizzaUserCreated.TotalPricePizza -= item.Cost;
+                    return;
+                }
+            }
+        }
+
+        private void InstantiateNewPizzaUserCreated()
+        {
+            this.NewPizzaUserCreated = new PizzaDetailViewModel_();
+            NewPizzaUserCreated.SelectedSizeID = 2;
+            NewPizzaUserCreated.TotalPricePizza = 0;
+            NewPizzaUserCreated.PizzaImage = "/Images/Pizza/UserCreatedPizza.png";
+            NewPizzaUserCreated.Ingres = new ObservableCollection<BLL.IngredientModel>();
+        }
+
+        private void FillIngredientType()
+        {
+            var AllType = db.GetAllCategories();
+            foreach (var type in AllType)
+            {
+                IngreTypes.Add(new IngredientTypeViewModel(type));
+            }
         }
 
         private void _deleteFromCart(object parameter)
@@ -196,8 +249,10 @@ namespace NewPizzaManager
 
         public Section CurrentSection { get; set; } = Section.Home;
 
-        public Visibility IsOrderVisible { get; set; } = Visibility.Collapsed;
         public Visibility IsOverViewVisible { get; set; } = Visibility.Visible;
+        public Visibility IsOrderVisible { get; set; } = Visibility.Collapsed;
+        public Visibility IsCreatePizzaViewVisible { get; set; } = Visibility.Collapsed;
+        public Visibility IsInfoViewVisible { get; set; } = Visibility.Collapsed;
 
         private void _selectSection(object Uid)
         {
@@ -209,20 +264,33 @@ namespace NewPizzaManager
                 case Section.Home:
                     IsOrderVisible = Visibility.Collapsed;
                     IsOverViewVisible = Visibility.Visible;
+                    IsCreatePizzaViewVisible = Visibility.Collapsed;
+                    IsInfoViewVisible = Visibility.Collapsed;
                     break;
 
                 case Section.QuickOrder:
                     IsOrderVisible = Visibility.Visible;
                     IsOverViewVisible = Visibility.Collapsed;
+                    IsCreatePizzaViewVisible = Visibility.Collapsed;
+                    IsInfoViewVisible = Visibility.Collapsed;
                     break;
 
                 case Section.CreatePizza:
+                    IsOrderVisible = Visibility.Collapsed;
+                    IsOverViewVisible = Visibility.Collapsed;
+                    IsCreatePizzaViewVisible = Visibility.Visible;
+                    IsInfoViewVisible = Visibility.Collapsed;
                     break;
 
                 case Section.Discount:
+                    IsOrderVisible = Visibility.Collapsed;
+                    IsOverViewVisible = Visibility.Collapsed;
+                    IsCreatePizzaViewVisible = Visibility.Collapsed;
+                    IsInfoViewVisible = Visibility.Visible;
                     break;
 
                 default:
+                    Debugger.Break();
                     break;
             }
         }

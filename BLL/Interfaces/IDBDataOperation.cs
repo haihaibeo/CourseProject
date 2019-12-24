@@ -20,7 +20,9 @@ namespace BLL
         List<IngredientModel> GetIngreFromPizza(PizzaModel pizza);
         List<IngredientModel> GetIngreFromPizza(int pizza_id);
         List<PizzaDetailModel> GetAllCarts();
-        List<CategoryModel> GetCategories();
+        List<CategoryModel> GetAllCategories();
+        List<IngredientModel> GetIngresInThisType(CategoryModel category);
+        List<IngredientModel> GetIngresInThisType(int category_id);
 
         CustomerModel GetCustomer(int ID);
         IngredientModel GetIngredient(int ID);

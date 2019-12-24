@@ -17,8 +17,34 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <TextBox Style="{StaticResource TextboxPlaceHolder}"
-                 IsReadOnly="True" />
-    </Grid>
+    <Border Background="{StaticResource BackGroundLightBrush}" 
+            Margin="15 5 10 5" Padding="10"
+            CornerRadius="10">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        
+            <TextBlock Text="{Binding ThisType.Name}" Grid.Column="0"
+                       FontSize="{StaticResource FontSizeLarge}"
+                       FontFamily="{StaticResource LatoBold}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                     />
+
+            <Border Grid.Column="1"
+                    CornerRadius="10" Padding="20 0 10 0"
+                    Background="{StaticResource BackGroundLightGrayBrush}">
+                <ItemsControl ItemsSource="{Binding IngresInThisType}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:EachIngredientView/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+
+        </Grid>
+    </Border>
 </UserControl>

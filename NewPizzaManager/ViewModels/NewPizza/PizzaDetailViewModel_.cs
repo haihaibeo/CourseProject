@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace NewPizzaManager
 {
+    /// <summary>
+    /// View Model Control of each individual Pizza
+    /// </summary>
     public class PizzaDetailViewModel_ : BaseViewModel
     {
         public BLL.PizzaModel Pizza { get; set; }

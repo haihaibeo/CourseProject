@@ -215,9 +215,27 @@ namespace BLL
             return new PizzaDetailModel(db.PizzaDetails.GetItem(ID));
         }
 
-        public List<CategoryModel> GetCategories()
+        public List<CategoryModel> GetAllCategories()
         {
             return db.Categories.GetList().Select(i => new CategoryModel(i)).ToList();
+        }
+
+        public List<IngredientModel> GetIngresInThisType(CategoryModel category)
+        {
+            return GetIngresInThisType(category.ID);
+        }
+
+        public List<IngredientModel> GetIngresInThisType(int category_id)
+        {
+            var AllIngres = GetAllIngres();
+            List<IngredientModel> IngresInThisType = new List<IngredientModel>();
+
+            foreach(var ingre in AllIngres)
+            {
+                if (ingre.Category_ID == category_id)
+                    IngresInThisType.Add(ingre);
+            }
+            return IngresInThisType;
         }
     }
 }

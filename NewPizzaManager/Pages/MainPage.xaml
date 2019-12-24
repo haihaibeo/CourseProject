@@ -71,6 +71,12 @@
 
             <local:HomeView Visibility="{Binding IsOverViewVisible}">
             </local:HomeView>
+
+            <local:CreatePizzaView Visibility="{Binding IsCreatePizzaViewVisible}">
+            </local:CreatePizzaView>
+
+            <local:InfoView Visibility="{Binding IsInfoViewVisible}">
+            </local:InfoView>
         </Grid>
     </Grid>
 </local:BasePage>
