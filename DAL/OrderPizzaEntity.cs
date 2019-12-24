@@ -22,6 +22,7 @@ namespace DAL
         public virtual DbSet<PizzaType> PizzaTypes { get; set; }
         public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<Size> Sizes { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -93,6 +94,16 @@ namespace DAL
                 .HasMany(e => e.Details)
                 .WithRequired(e => e.Size)
                 .HasForeignKey(e => e.Size_ID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Status>()
+                .Property(e => e.Status1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Status>()
+                .HasMany(e => e.Orders)
+                .WithRequired(e => e.Status)
+                .HasForeignKey(e => e.Status_ID)
                 .WillCascadeOnDelete(false);
         }
     }

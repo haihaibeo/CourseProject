@@ -32,6 +32,11 @@ namespace DAL
             return _dbContext.Categories.Find(id);
         }
 
+        public Category GetLastRecord()
+        {
+            return _dbContext.Categories.OrderByDescending(i => i.ID).FirstOrDefault();
+        }
+
         public List<Category> GetList()
         {
             return _dbContext.Categories.ToList();

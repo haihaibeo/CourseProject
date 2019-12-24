@@ -78,6 +78,8 @@
     <Compile Include="Repositories\ReceiptReposSQL.cs" />
     <Compile Include="Repositories\SizeReposSQL.cs" />
     <Compile Include="Entities\Size.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="Repositories\StatusReposSQL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

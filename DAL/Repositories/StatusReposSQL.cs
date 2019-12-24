@@ -6,38 +6,38 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class SizeReposSQL : IRepository<Size>
+    public class StatusReposSQL : IRepository<Status>
     {
         private OrderPizzaEntity _dbcontext;
 
-        public SizeReposSQL(OrderPizzaEntity dbcontext)
+        public StatusReposSQL(OrderPizzaEntity dbcontext)
         {
             _dbcontext = dbcontext;
         }
 
-        public void Create(Size item)
+        public void Create(Status item)
         {
-            _dbcontext.Sizes.Add(item);
+            _dbcontext.Status.Add(item);
         }
 
         public void Delete(int id)
         {
-            var item = _dbcontext.Sizes.Find(id);
+            var item = _dbcontext.Status.Find(id);
             if (item != null)
-                _dbcontext.Sizes.Remove(item);
+                _dbcontext.Status.Remove(item);
         }
 
-        public Size GetItem(int? id)
+        public Status GetItem(int? id)
         {
-            return _dbcontext.Sizes.Find(id);
+            return _dbcontext.Status.Find(id);
         }
 
-        public List<Size> GetList()
+        public List<Status> GetList()
         {
-            return _dbcontext.Sizes.ToList();
+            return _dbcontext.Status.ToList();
         }
 
-        public void Update(Size item)
+        public void Update(Status item)
         {
             _dbcontext.Entry(item).State = System.Data.Entity.EntityState.Modified;
         }
@@ -47,9 +47,9 @@ namespace DAL
             return _dbcontext.SaveChanges() > 0;
         }
 
-        public Size GetLastRecord()
+        public Status GetLastRecord()
         {
-            return _dbcontext.Sizes.OrderByDescending(i => i.ID).FirstOrDefault();
+            return _dbcontext.Status.OrderByDescending(i => i.ID).FirstOrDefault();
         }
     }
 }

@@ -44,5 +44,10 @@ namespace DAL
         {
             return _dbcontext.SaveChanges() > 0;
         }
+
+        public Receipt GetLastRecord()
+        {
+            return _dbcontext.Receipts.OrderByDescending(i => i.ID).FirstOrDefault();
+        }
     }
 }

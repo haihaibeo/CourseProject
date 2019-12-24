@@ -7,6 +7,46 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Найти клинента по имению "
+                       VerticalAlignment="Center" Margin="20 10"
+                       FontSize="{StaticResource FontSizeLarge}"
+                       FontFamily="{StaticResource LatoBold}"/>
+            <TextBox Style="{StaticResource TextboxPlaceHolder}"
+                     MinWidth="200"
+                     Text="{Binding FindName, Mode=TwoWay, NotifyOnTargetUpdated=True}"
+                     Tag="Введите имя клиента"/>
+
+            <Button Content="НАЙТИ" 
+                    Margin="20 10"
+                    Command="{x:Static local:OrderViewModel.GetCustomers}"
+                    Style="{StaticResource RoundButton}"/>
+
             
+            
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Customers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:EachCustomerView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        
     </Grid>
 </UserControl>

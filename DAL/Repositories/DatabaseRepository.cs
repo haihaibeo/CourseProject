@@ -19,6 +19,7 @@ namespace DAL
         private ReceiptReposSQL receiptReposSQL;
         private SizeReposSQL sizeReposSQL;
         private CategoryReposSQL categoryReposSQL;
+        private StatusReposSQL statusReposSQL;
 
 
         public DatabaseRepository(OrderPizzaEntity db)
@@ -113,6 +114,15 @@ namespace DAL
             {
                 if (categoryReposSQL == null) categoryReposSQL = new CategoryReposSQL(_db);
                 return categoryReposSQL;
+            }
+        }
+
+        public IRepository<Status> Status
+        {
+            get
+            {
+                if (statusReposSQL == null) statusReposSQL = new StatusReposSQL(_db);
+                return statusReposSQL;
             }
         }
 

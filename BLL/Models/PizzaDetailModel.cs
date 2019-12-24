@@ -8,7 +8,7 @@ namespace BLL
 {
     public class PizzaDetailModel
     {
-        public int ID { get; private set; }
+        public int ID { get; set; }
         public int Pizza_ID { get; set; }
         public int Detail_ID { get; set; }
         public decimal TotalPrice { get; set; }

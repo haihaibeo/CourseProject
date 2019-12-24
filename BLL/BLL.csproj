@@ -66,6 +66,7 @@
     <Compile Include="Models\PizzaTypeModel.cs" />
     <Compile Include="Models\ReceiptModel.cs" />
     <Compile Include="Models\SizeModel.cs" />
+    <Compile Include="Models\StatusModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\MakePizzaService.cs" />
     <Compile Include="Utilitites\ServiceModule.cs" />

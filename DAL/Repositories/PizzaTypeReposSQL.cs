@@ -47,5 +47,10 @@ namespace DAL
         {
             return _dbcontext.SaveChanges() > 0;
         }
+
+        public PizzaType GetLastRecord()
+        {
+            return _dbcontext.PizzaTypes.OrderByDescending(i => i.ID).FirstOrDefault();
+        }
     }
 }

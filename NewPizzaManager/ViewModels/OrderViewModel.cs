@@ -12,14 +12,17 @@ namespace NewPizzaManager
         public ObservableCollection<PizzaDetailViewModel_> Carts { get; set; }
         public ObservableCollection<PizzaDetailViewModel_> AvailablePizzas { get; set; }
         public ObservableCollection<IngredientTypeViewModel> IngreTypes { get; set; }
+        public ObservableCollection<CustomerViewModel> Customers { get; set; }
         public PizzaDetailViewModel_ NewPizzaUserCreated { get; set; }
 
         public BLL.CustomerModel Customer { get; set; }
+
         public string Name { get; set; }
         public string Street { get; set; }
         public string Apartment { get; set; }
         public string Block { get; set; }
         public string Phone { get; set; }
+        public string FindName { get; set; }
 
         public string Address { get; set; }
 
@@ -30,6 +33,8 @@ namespace NewPizzaManager
         public static ICommand DeleteFromCart { get; set; }
         public static ICommand AddIngredientToPizza { get; set; }
         public static ICommand DeleteIngredientFromPizza { get; set; }
+        public static ICommand CreateNewPizzaAndAddToCart { get; set; }
+        public static ICommand GetCustomers { get; set; }
 
         public static OrderViewModel CartInstance => new OrderViewModel();
 
@@ -40,6 +45,9 @@ namespace NewPizzaManager
             DeleteFromCart = new RelayParameterizedCommand(parameter => _deleteFromCart(parameter));
             AddIngredientToPizza = new RelayParameterizedCommand(ingre_id => _addIngre(ingre_id));
             DeleteIngredientFromPizza = new RelayParameterizedCommand(ingre_id => _deleteIngre(ingre_id));
+            CreateNewPizzaAndAddToCart = new RelayCommand(_createNewPizza);
+            GetCustomers = new RelayCommand(_findCustomers);
+            
 
             Order = new RelayCommand(_order);
 
@@ -52,6 +60,45 @@ namespace NewPizzaManager
             InstantiateNewPizzaUserCreated();
             this.Carts.CollectionChanged += Carts_CollectionChanged;
             
+        }
+
+        private void _findCustomers()
+        {
+            Customers = new ObservableCollection<CustomerViewModel>();
+            if (String.IsNullOrWhiteSpace(FindName))
+                return;
+            foreach(var item in db.GetAllCustomers())
+            {
+                if(item.Name.Contains(FindName))
+                {
+                    Customers.Add(new CustomerViewModel(item.ID));
+                }
+            }
+        }
+
+        private void _createNewPizza()
+        {
+            if (string.IsNullOrWhiteSpace(NewPizzaUserCreated.UserCreatedPizzaName))
+            {
+                MessageBox.Show("Please fill the pizza name field");
+                return;
+            }
+            if(NewPizzaUserCreated.Ingres.Count == 0)
+            {
+                MessageBox.Show("Please add some ingredients");
+                return;
+            }
+            NewPizzaUserCreated.Pizza.Name = NewPizzaUserCreated.UserCreatedPizzaName;
+            NewPizzaUserCreated.Pizza.Price = NewPizzaUserCreated.TotalPricePizza;
+
+            var buff_pizza = NewPizzaUserCreated.Pizza;
+            db.MakeNewPizza(ref buff_pizza, new List<BLL.IngredientModel>(NewPizzaUserCreated.Ingres));
+            NewPizzaUserCreated.Pizza = buff_pizza;
+
+            var newPizza = new PizzaDetailViewModel_(NewPizzaUserCreated.Pizza.ID, NewPizzaUserCreated.SelectedSizeID, Quantity.Один);
+            newPizza.PizzaImage = "/Images/Pizza/UserCreatedPizza.png";
+            Carts.Add(newPizza);
+            MessageBox.Show("Successful!");
         }
 
         private void _addIngre(object ingre_id)
@@ -84,8 +131,25 @@ namespace NewPizzaManager
             this.NewPizzaUserCreated = new PizzaDetailViewModel_();
             NewPizzaUserCreated.SelectedSizeID = 2;
             NewPizzaUserCreated.TotalPricePizza = 0;
+            NewPizzaUserCreated.Pizza = new BLL.PizzaModel();
             NewPizzaUserCreated.PizzaImage = "/Images/Pizza/UserCreatedPizza.png";
             NewPizzaUserCreated.Ingres = new ObservableCollection<BLL.IngredientModel>();
+            NewPizzaUserCreated.Ingres.CollectionChanged += Ingres_CollectionChanged;
+        }
+
+        private void Ingres_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RecalculateNewPizzaUserCreated();
+        }
+
+        private void RecalculateNewPizzaUserCreated()
+        {
+            NewPizzaUserCreated.TotalPricePizza = 0;
+            foreach (var item in NewPizzaUserCreated.Ingres)
+            {
+                NewPizzaUserCreated.TotalPricePizza += item.Cost;
+            }
+            NewPizzaUserCreated.TotalPricePizza += 50;
         }
 
         private void FillIngredientType()
@@ -107,14 +171,19 @@ namespace NewPizzaManager
                     return;
                 }
             }
+
+            //delete pizza from user only
+            //db.DeletePizzaUserCreated((int)parameter);
         }
 
         private void CreateShellPizzas()
         {
             foreach (var item in db.GetAllPizzas())
             {
-                AvailablePizzas.Add(new PizzaDetailViewModel_(item.ID, 1, Quantity.Один));
+                if (item.PizzaType_ID == 1)
+                    AvailablePizzas.Add(new PizzaDetailViewModel_(item.ID, 1, Quantity.Один));
             }
+            
             foreach (var item in AvailablePizzas)
             {
                 switch (item.SelectedPizzaID)
@@ -132,7 +201,7 @@ namespace NewPizzaManager
                         item.PizzaImage = "/Images/Pizza/Pizza_4.png";
                         break;
                     default:
-                        item.PizzaImage = "";
+                        item.PizzaImage = "/Images/Pizza/UserCreatedPizza.png";
                         break;
                 }
             }
@@ -140,33 +209,45 @@ namespace NewPizzaManager
 
         private void _order()
         {
-            BLL.CustomerModel cust = new BLL.CustomerModel()
+            if(String.IsNullOrWhiteSpace(Name) 
+                || String.IsNullOrWhiteSpace(Phone) 
+                || String.IsNullOrWhiteSpace(Street)
+                || String.IsNullOrWhiteSpace(Block)
+                || String.IsNullOrWhiteSpace(Apartment))
+            {
+                MessageBox.Show("Please fill all needed fields");
+                return;
+            }
+
+            BLL.CustomerModel customer = new BLL.CustomerModel()
             {
                 Name = this.Name,
-                Address = Street + Block + Apartment,
-                Phone = Phone
+                Phone = this.Phone,
+                Address = String.Join(" ", this.Street, this.Block, this.Apartment)
             };
-            if (Carts.Count > 0 && cust.Address != null)
+
+            List<BLL.PizzaDetailModel> carts = new List<BLL.PizzaDetailModel>();
+            foreach (var item in Carts)
             {
-                try
+                BLL.DetailModel detail = new BLL.DetailModel()
                 {
-                    int cust_id = db.AddNewCustomer(cust);
-                    List<int> cart_id = new List<int>();
-                    foreach (var item in Carts)
-                    {
-                        BLL.DetailModel dt = new BLL.DetailModel()
-                        {
-                            Quantity = (int)SelectedQuant,
-                            Size_ID = item.SelectedSizeID
-                        };
-                        int id = db.AddNewCart(dt, item.SelectedPizzaID);
-                        cart_id.Add(id);
-                        db.AddNewOrder(id, cust_id, db.GetCart(id).TotalPrice);
-                    }
-                    db.Save();
-                }
-                catch { }
+                    Quantity = (int)item.SelectedQuant,
+                    Size_ID = item.SelectedSizeID
+                };
+                db.AddNewDetail(ref detail);
+                carts.Add(new BLL.PizzaDetailModel()
+                {
+                    Pizza_ID = item.SelectedPizzaID,
+                    TotalPrice = item.TotalPricePizza,
+                    Detail_ID = detail.ID
+                });
             }
+
+            if (db.AddNewOrder(ref customer, ref carts))
+            {
+                MessageBox.Show("Successful!");
+            }
+            else MessageBox.Show("Cannot add new order !");
         }
 
         private void Carts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -237,7 +318,7 @@ namespace NewPizzaManager
                     newPizza.PizzaImage = "/Images/Pizza/Pizza_4.png";
                     break;
                 default:
-                    newPizza.PizzaImage = "";
+                    newPizza.PizzaImage = "/Images/Pizza/UserCreatedPizza.png";
                     break;
             }
             newPizza.PropertyChanged += Item_PropertyChanged;

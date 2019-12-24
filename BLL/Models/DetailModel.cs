@@ -8,7 +8,7 @@ namespace BLL
 {
     public class DetailModel
     {
-        public int ID { get; private set; }
+        public int ID { get; set; }
         public int Quantity { get; set; }
         public int Size_ID { get; set; }
 

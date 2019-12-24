@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="NewPizzaManager.OrderPerCustomerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NewPizzaManager"
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <Style x:Key="ContentStyle" TargetType="{x:Type ContentControl}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding PizzaName}" Grid.Column="0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource LatoBold}"
+                                         FontSize="{StaticResource FontSizeSmall}"/>
+                            <TextBlock Text="{Binding SizeName}" Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource LatoBold}"
+                                       HorizontalAlignment="Left"
+                                       FontSize="{StaticResource FontSizeSmall}"/>
+                            <TextBlock Text="{Binding Quantity}" Grid.Column="2"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="{StaticResource LatoBold}"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeSmall}"/>
+                            <TextBlock Text="{Binding Status}" Grid.Column="3"
+                                       HorizontalAlignment="Left"
+                                       FontFamily="{StaticResource LatoBold}"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeSmall}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <ContentControl Style="{StaticResource ContentStyle}"/>
+</UserControl>

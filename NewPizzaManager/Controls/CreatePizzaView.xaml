@@ -28,9 +28,9 @@
         </ScrollViewer>
 
         <Border Grid.Column="1" MaxHeight="800" MaxWidth="800">
-            <!-- TODO : Rewrite UI for CreatePizza -->
-            <local:PizzaView
+            <local:DetailCreatedPizza
                 DataContext="{Binding NewPizzaUserCreated}"/>
+            
         </Border>
 
     </Grid>

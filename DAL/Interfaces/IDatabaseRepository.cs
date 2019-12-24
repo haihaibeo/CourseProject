@@ -18,6 +18,7 @@ namespace DAL
         IRepository<Receipt> Receipts { get; }
         IRepository<Size> Sizes { get; }
         IRepository<Category> Categories { get; }
+        IRepository<Status> Status { get; }
         int Save();
     }
 }

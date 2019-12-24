@@ -9,21 +9,20 @@ namespace NewPizzaManager
     /// </summary>
     public class PizzaDetailViewModel_ : BaseViewModel
     {
-        public BLL.PizzaModel Pizza { get; set; }
         public ObservableCollection<BLL.IngredientModel> Ingres { get; set; }
         public ObservableCollection<BLL.SizeModel> Sizes { get; set; } = new ObservableCollection<BLL.SizeModel>(db.GetAllSize());
         public Quantity SelectedQuant { get; set; } = Quantity.Один;
+        public BLL.PizzaModel Pizza { get; set; }
 
         public ObservableCollection<Quantity> Quants { get; set; } = new ObservableCollection<Quantity>()
         {
             Quantity.Один, Quantity.Два, Quantity.Три, Quantity.Четыре, Quantity.Пять
         };
 
-        public string PizzaImage { get; set; }
-
         public int SelectedPizzaID { get; set; } = 1;
         public int SelectedSizeID { get; set; } = 1;
-
+        public string PizzaImage { get; set; }
+        public string UserCreatedPizzaName { get; set; }
         public decimal TotalPricePizza { get; set; }
 
         public PizzaDetailViewModel_()

@@ -34,6 +34,12 @@ namespace DAL
         void Delete(int id);
 
         /// <summary>
+        /// return the last added record's ID
+        /// </summary>
+        /// <returns></returns>
+        T GetLastRecord();
+
+        /// <summary>
         /// Save changes
         /// </summary>
         /// <returns></returns>

@@ -24,10 +24,10 @@ namespace BLL
         public List<IngredientModel> GetAllIngres()
             => db.Ingredients.GetList().Select(i => new IngredientModel(i)).ToList();
 
-        public List<ReceiptModel> GetAllReceipts() 
+        public List<ReceiptModel> GetAllReceipts()
             => db.Receipts.GetList().Select(i => new ReceiptModel(i)).ToList();
 
-        public List<CustomerModel> GetAllCustomers() 
+        public List<CustomerModel> GetAllCustomers()
             => db.Customers.GetList().Select(i => new CustomerModel(i)).ToList();
 
         public List<SizeModel> GetAllSize()
@@ -35,14 +35,17 @@ namespace BLL
             return db.Sizes.GetList().Select(i => new SizeModel(i)).ToList();
         }
 
-        public PizzaModel GetPizza(int ID) 
+        public PizzaModel GetPizza(int ID)
             => new PizzaModel(db.Pizzas.GetItem(ID));
 
-        public CustomerModel GetCustomer(int ID) 
+        public CustomerModel GetCustomer(int ID)
             => new CustomerModel(db.Customers.GetItem(ID));
 
-        public IngredientModel GetIngredient(int ID) 
+        public IngredientModel GetIngredient(int ID)
             => new IngredientModel(db.Ingredients.GetItem(ID));
+
+        public StatusModel GetStatus(int ID)
+            => new StatusModel(db.Status.GetItem(ID));
 
         public List<BLL.IngredientModel> GetIngreFromPizza(PizzaModel pizza)
         {
@@ -68,36 +71,6 @@ namespace BLL
                     ingres.Add(this.GetIngredient(i.Ingredient_ID));
             }
             return ingres;
-        }
-
-        public int AddNewCustomer(CustomerModel cust_model)
-        {
-            int id = -1;
-            try
-            {
-                Customer cust = new Customer()
-                {
-                    Address = cust_model.Address,
-                    Name = cust_model.Name,
-                    Phone = cust_model.Phone
-                };
-                db.Customers.Create(cust);
-                db.Save();
-                List<CustomerModel> allCust = this.GetAllCustomers();
-                foreach (var i in allCust)
-                {
-                    if (i.Name == cust_model.Name
-                        && i.Address == cust_model.Address
-                        && i.Phone == cust_model.Phone)
-                        return i.ID;
-                }
-
-            }
-            catch
-            {
-
-            }
-            return id;
         }
 
         public void AddNewIngre(IngredientModel i)
@@ -133,66 +106,6 @@ namespace BLL
         public SizeModel GetSize(int ID)
         {
             return new SizeModel(db.Sizes.GetItem(ID));
-        }
-
-        public void AddNewOrder(int pizza_id, int customer_id, decimal total)
-        {
-            Order order = new Order()
-            {
-                Customer_ID = customer_id,
-                PizzaDetail_ID = pizza_id,
-                TotalPriceOrder = total
-            };
-            db.Orders.Create(order);
-            db.Save();
-        }
-
-        public int AddNewCart(DetailModel dm, int pizza_id)
-        {
-            int id = -1;
-            int dt_id = AddNewDetail(dm);
-
-            PizzaDetail pd = new PizzaDetail()
-            {
-                Pizza_ID = pizza_id,
-                Detail_ID = dt_id,
-                TotalPricePizza = GetPizza(pizza_id).Price * GetDetail(dt_id).Quantity * Convert.ToDecimal(GetRatio(GetDetail(id).Size_ID))
-            };
-
-            try
-            {
-                db.PizzaDetails.Create(pd);
-                db.Save();
-                foreach (var item in GetAllCarts())
-                {
-                    if (dt_id == item.Detail_ID && pizza_id == item.Pizza_ID)
-                        id = item.ID;
-                }
-            }
-            catch { }
-            return id;
-        }
-
-        public int AddNewDetail(DetailModel dt)
-        {
-            int id = -1;
-            Detail detail = new Detail()
-            {
-                Quantity = dt.Quantity,
-                Size_ID = dt.Size_ID
-            };
-            try
-            {
-                db.Details.Create(detail);
-                db.Save();
-                foreach (var item in GetAllDetails())
-                {
-                    if (dt.Quantity == item.Quantity && dt.Size_ID == item.Size_ID)
-                        return id = item.ID;
-                }
-            }
-            catch { }
-            return id;
         }
 
         public List<DetailModel> GetAllDetails()
@@ -236,6 +149,130 @@ namespace BLL
                     IngresInThisType.Add(ingre);
             }
             return IngresInThisType;
+        }
+
+        public List<OrderModel> GetOrdersByCustomerID(int customer_id)
+        {
+            var customer = GetCustomer(customer_id);
+            var orders = new List<OrderModel>();
+            foreach (var item in GetAllOrders())
+            {
+                if (item.Customer_ID == customer.ID)
+                    orders.Add(item);
+            }
+            return orders;
+        }
+
+        public bool MakeNewPizza(ref BLL.PizzaModel pz_m, List<BLL.IngredientModel> ingres)
+        {
+            try
+            {
+                DAL.Pizza pz = new DAL.Pizza();
+                pz.Name = pz_m.Name;
+                pz.Price = pz_m.Price;
+                pz.PizzaType_ID = 2;
+
+                db.Pizzas.Create(pz);
+                db.Save();
+                pz_m = new PizzaModel(db.Pizzas.GetLastRecord());
+
+                foreach(var ingre in ingres)
+                {
+                    Receipt rc = new Receipt();
+                    rc.Pizza_ID = pz_m.ID;
+                    rc.Ingredient_ID = ingre.ID;
+                    db.Receipts.Create(rc);
+                }
+            }
+            catch { }
+
+            if (db.Save() > 0) return true;
+            else return false;
+        }
+
+        public void DeletePizzaUserCreated(int id)
+        {
+            var pizza = GetPizza(id);
+            if (pizza.PizzaType_ID == 1)
+                return;
+         
+            foreach(var item in GetAllReceipts())
+            {
+                if (item.Pizza_ID == pizza.ID)
+                    db.Receipts.Delete(item.ID);
+            }
+            db.Pizzas.Delete(pizza.ID);
+        }
+
+        public bool AddNewOrder(ref CustomerModel customer,ref List<PizzaDetailModel> carts)
+        {
+            Customer cust = new Customer()
+            {
+                Name = customer.Name,
+                Address = customer.Address,
+                Phone = customer.Phone
+            };
+            db.Customers.Create(cust);
+            if (Save() == false) return false;
+            customer.ID = new CustomerModel(db.Customers.GetLastRecord()).ID;
+
+            Order order = new Order();
+
+            foreach (var item in carts)
+            {
+                PizzaDetail pd = new PizzaDetail()
+                {
+                    Detail_ID = item.Detail_ID,
+                    Pizza_ID = item.Pizza_ID,
+                };
+                db.PizzaDetails.Create(pd);
+                if (Save() == false) return false;
+                item.ID = new PizzaDetailModel(db.PizzaDetails.GetLastRecord()).ID;
+                order.PizzaDetail_ID = item.ID;
+                order.Customer_ID = customer.ID;
+                order.TotalPriceOrder = item.TotalPrice;
+                order.Status_ID = 1;
+                db.Orders.Create(order);
+                if(!Save()) return false;
+            }
+            return true;
+        }
+
+        public void AddNewDetail(ref BLL.DetailModel detail)
+        {
+            List<DetailModel> details = new List<DetailModel>(GetAllDetails());
+            foreach (var item in details)
+            {
+                if (item.Quantity == detail.Quantity && item.Size_ID == detail.Size_ID)
+                {
+                    detail.ID = item.ID;
+                    return;
+                }
+
+            }
+            Detail dt = new Detail()
+            {
+                Size_ID = detail.Size_ID,
+                Quantity = detail.Quantity,
+            };
+            db.Details.Create(dt);
+            db.Save();
+            detail = new BLL.DetailModel(db.Details.GetLastRecord());
+        }
+
+        public List<StatusModel> GetAllStatus()
+        {
+            return db.Status.GetList().Select(i => new StatusModel(i)).ToList();
+        }
+
+        public PizzaDetailModel GetPizzaDetail(int ID)
+        {
+            return new PizzaDetailModel(db.PizzaDetails.GetItem(ID));
+        }
+
+        public List<PizzaDetailModel> GetAllPizzaDetails()
+        {
+            return db.PizzaDetails.GetList().Select(i => new PizzaDetailModel(i)).ToList();
         }
     }
 }

@@ -46,5 +46,10 @@ namespace DAL
         {
             return _dbcontext.SaveChanges() > 0;
         }
+
+        public Customer GetLastRecord()
+        {
+            return _dbcontext.Customers.OrderByDescending(i => i.ID).FirstOrDefault();
+        }
     }
 }
