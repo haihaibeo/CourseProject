@@ -17,11 +17,11 @@ namespace NewPizzaManager
 
         public BLL.CustomerModel Customer { get; set; }
 
-        public string Name { get; set; }
-        public string Street { get; set; }
-        public string Apartment { get; set; }
-        public string Block { get; set; }
-        public string Phone { get; set; }
+        public string Name { get; set; } = "Хай";
+        public string Street { get; set; } = "Парижской Коммуны";
+        public string Apartment { get; set; } = "К.50";
+        public string Block { get; set; } = "Д.58";
+        public string Phone { get; set; } = "89641234567";
         public string FindName { get; set; }
 
         public string Address { get; set; }
@@ -34,7 +34,7 @@ namespace NewPizzaManager
         public static ICommand AddIngredientToPizza { get; set; }
         public static ICommand DeleteIngredientFromPizza { get; set; }
         public static ICommand CreateNewPizzaAndAddToCart { get; set; }
-        public static ICommand GetCustomers { get; set; }
+        //public static ICommand GetCustomers { get; set; }
 
         public static OrderViewModel CartInstance => new OrderViewModel();
 
@@ -46,7 +46,7 @@ namespace NewPizzaManager
             AddIngredientToPizza = new RelayParameterizedCommand(ingre_id => _addIngre(ingre_id));
             DeleteIngredientFromPizza = new RelayParameterizedCommand(ingre_id => _deleteIngre(ingre_id));
             CreateNewPizzaAndAddToCart = new RelayCommand(_createNewPizza);
-            GetCustomers = new RelayCommand(_findCustomers);
+            //GetCustomers = new RelayCommand(_findCustomers);
             
 
             Order = new RelayCommand(_order);
@@ -54,6 +54,7 @@ namespace NewPizzaManager
             Carts = new ObservableCollection<PizzaDetailViewModel_>();
             AvailablePizzas = new ObservableCollection<PizzaDetailViewModel_>();
             IngreTypes = new ObservableCollection<IngredientTypeViewModel>();
+            Customers = new ObservableCollection<CustomerViewModel>();
 
             CreateShellPizzas();
             FillIngredientType();
@@ -62,19 +63,19 @@ namespace NewPizzaManager
             
         }
 
-        private void _findCustomers()
-        {
-            Customers = new ObservableCollection<CustomerViewModel>();
-            if (String.IsNullOrWhiteSpace(FindName))
-                return;
-            foreach(var item in db.GetAllCustomers())
-            {
-                if(item.Name.Contains(FindName))
-                {
-                    Customers.Add(new CustomerViewModel(item.ID));
-                }
-            }
-        }
+        //private void _findCustomers()
+        //{
+        //    Customers = new ObservableCollection<CustomerViewModel>();
+        //    if (String.IsNullOrWhiteSpace(FindName))
+        //        return;
+        //    foreach(var item in db.GetAllCustomers())
+        //    {
+        //        if(item.Name.Contains(FindName))
+        //        {
+        //            Customers.Add(new CustomerViewModel(item.ID));
+        //        }
+        //    }
+        //}
 
         private void _createNewPizza()
         {
@@ -215,8 +216,12 @@ namespace NewPizzaManager
                 || String.IsNullOrWhiteSpace(Block)
                 || String.IsNullOrWhiteSpace(Apartment))
             {
-                MessageBox.Show("Please fill all needed fields");
+                MessageBox.Show("Заполните все нужные поля");
                 return;
+            }
+            if(Carts.Count == 0)
+            {
+                MessageBox.Show("Корзина пустая");
             }
 
             BLL.CustomerModel customer = new BLL.CustomerModel()
@@ -245,9 +250,10 @@ namespace NewPizzaManager
 
             if (db.AddNewOrder(ref customer, ref carts))
             {
-                MessageBox.Show("Successful!");
+                MessageBox.Show("Успех!");
+                Customers.Add(new CustomerViewModel(customer.ID));
             }
-            else MessageBox.Show("Cannot add new order !");
+            else MessageBox.Show("Не успех!");
         }
 
         private void Carts_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

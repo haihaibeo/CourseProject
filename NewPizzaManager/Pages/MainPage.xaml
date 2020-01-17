@@ -56,7 +56,7 @@
                     FontSize="{StaticResource FontSizeRegular}"
                     Background="{x:Null}" Foreground="{StaticResource RedOrangeBrush}"
                     Command="{Binding SelectSection}" CommandParameter="3"
-                    Content="Инфо" />
+                    Content="Информация заказов" />
 
             <Grid Grid.Row="2" Grid.Column="{Binding CurrentSection, Converter={local:SectionValueConverter}}"
                   Background="{StaticResource RedOrangeBrush}" Margin="2" />

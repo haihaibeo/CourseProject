@@ -51,11 +51,11 @@
                                     <TextBlock Text="Заказы" VerticalAlignment="Center"
                                                FontSize="{StaticResource FontSizeRegular}"/>
                                     <Border Background="{StaticResource BackGroundLightGrayBrush}"
-                                            CornerRadius="10" MaxHeight="250"
+                                            CornerRadius="10" MaxWidth="600"
                                             Padding="10"
                                             Margin="50 10 10 10">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <ItemsControl ItemsSource="{Binding Carts}">
+                                            <ItemsControl ItemsSource="{Binding Carts}" Margin="5">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Vertical"/>

@@ -106,12 +106,9 @@
     <Compile Include="Controls\Pizza\PizzaFrameView.xaml.cs">
       <DependentUpon>PizzaFrameView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataModels\CustomerModel.cs" />
     <Compile Include="DataModels\Enum\ApplicationPage.cs" />
-    <Compile Include="DataModels\DetailModel.cs" />
     <Compile Include="DataModels\OrderModel.cs" />
     <Compile Include="DataModels\PizzaDetailModel.cs" />
-    <Compile Include="DataModels\PizzaModel.cs" />
     <Compile Include="DataModels\Enum\Quantity.cs" />
     <Compile Include="Controls\DetailCreatedPizza.xaml.cs">
       <DependentUpon>DetailCreatedPizza.xaml</DependentUpon>
@@ -302,6 +299,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Pizza\UserCreatedPizza.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1483.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />
